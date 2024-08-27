@@ -1,17 +1,18 @@
+//Sidebar.css
 import React from 'react';
+import { Link } from 'react-router-dom';
+import './Sidebar.css';
 
-const Sidebar = () => {
+function Sidebar() {
     return (
-        <aside>
-            <nav>
-                <ul>
-                    <li>Dashboard</li>
-                    <li>Transactions</li>
-                    <li>Budget</li>
-                </ul>
-            </nav>
-        </aside>
+        <div className="sidebar">
+            <ul>
+                <li><Link to="/dashboard">Dashboard</Link></li>
+                <li><Link to="/transactions">Transactions</Link></li>
+                <li><Link to="/budget">Budget</Link></li>
+            </ul>
+        </div>
     );
-};
+}
 
 export default Sidebar;

@@ -1,0 +1,29 @@
+/* Transactions.css and Budget.css (same for both) */
+
+.container {
+    margin-left: 220px; /* Same as sidebar width */
+    margin-top: 60px;
+    padding: 20px;
+    width: calc(100% - 220px); /* Adjust width accordingly */
+    box-sizing: border-box;
+}
+
+.container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.container ul li:hover {
+    background-color: #f1f1f1;
+}

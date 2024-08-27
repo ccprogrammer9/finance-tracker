@@ -1,0 +1,22 @@
+/* Header.css */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #282c34;
+    color: #ffffff;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000; /* Ensures it stays above the sidebar */
+    height: 60px; /* Consistent height across components */
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+}

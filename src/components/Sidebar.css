@@ -1,0 +1,33 @@
+/* Sidebar.css */
+
+.sidebar {
+    width: 200px;
+    height: calc(100vh - 60px); /* Full height minus the header */
+    background-color: #2c3e50;
+    position: fixed; /* Keeps it fixed to the side */
+    top: 60px; /* Position it just below the header */
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 25px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.sidebar ul li a:hover {
+    color: #3498db;
+}
