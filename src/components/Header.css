@@ -1,22 +1,26 @@
 /* Header.css */
-
 header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #282c34;
-    color: #ffffff;
-    padding: 10px;
+    position: relative;
     width: 100%;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2000; /* Ensures it stays above the sidebar */
-    height: 60px; /* Consistent height across components */
+    overflow: hidden; /* Hide any overflowing content */
+}
+
+.slideshow-container {
+    width: 100%;
+    height: auto; /* Adjust based on your image height */
+    position: relative;
+}
+
+.slideshow-image {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
 }
 
 h1 {
-    margin: 0;
-    font-size: 2rem;
+    text-align: center;
+    font-size: 100px;
+    font-family: Geneva, sans-serif;
+    margin: 20px 0; /* Adjust as needed */
+    color: #208b21; /* Adjust text color if needed */
 }

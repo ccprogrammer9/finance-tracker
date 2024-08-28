@@ -1,17 +1,17 @@
-// src/components/TransactionList.js
 import React from 'react';
 
-const TransactionList = React.memo(({ transactions }) => {
-    console.log('Rendering TransactionList'); // To check when re-renders occur
+const TransactionList = ({ transactions, onEdit, onDelete }) => {
     return (
         <ul>
             {transactions.map((txn) => (
                 <li key={txn.id}>
-                    {txn.description}: ${txn.amount}
+                    {txn.date} - {txn.description}: ${txn.amount} (Category: {txn.category})
+                    <button onClick={() => onEdit(txn.id)}>Edit</button>
+                    <button onClick={() => onDelete(txn.id)}>Delete</button>
                 </li>
             ))}
         </ul>
     );
-});
+};
 
 export default TransactionList;

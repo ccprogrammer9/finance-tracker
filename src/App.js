@@ -1,30 +1,49 @@
-//App.js
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import MainContent from './components/MainContent';
-import Dashboard from './pages/Dashboard';
-import Transactions from './pages/Transactions';
-import Budget from './pages/Budget';
-import './App.css'; // Ensure you have styles to support the layout
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Dashboard from './components/Dashboard';
+import Transactions from './components/Transactions';
+import Budget from './components/Budget';
+import './App.css'; // General styles for the app layout
 
-function App() {
+const App = () => {
+    const [budgets, setBudgets] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        // Load budgets from local storage
+        const savedBudgets = JSON.parse(localStorage.getItem('budgets')) || [];
+        setBudgets(savedBudgets);
+    }, []);
+
+    useEffect(() => {
+        // Load transactions from local storage
+        const savedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        setTransactions(savedTransactions);
+    }, []);
+
     return (
-        <Router>
-            <div className="App">
-                <Sidebar />
-                <div className="main-content">
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/transactions" element={<Transactions />} />
-                        <Route path="/budget" element={<Budget />} />
-                    </Routes>
+        <div className="App">
+            <Header /> {/* Contains the slideshow component */}
+            <main className="content-container">
+                {/* Budget Summary and Dashboard */}
+                <div className="summary-dashboard-container">
+                    <h2 style={{ textAlign: 'center' }}>Budget Summary</h2>
+                    <ul>
+                        {budgets.map(budget => (
+                            <li key={budget.id}>
+                                {budget.category}: ${budget.amount.toFixed(2)}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-            </div>
-        </Router>
+                {/* Include Dashboard and pass budgets and transactions as props */}
+                <Dashboard budgets={budgets} transactions={transactions} />
+                <Budget setBudgets={setBudgets} />
+                <Transactions setTransactions={setTransactions} />
+            </main>
+        </div>
     );
-}
+};
 
 export default App;
-

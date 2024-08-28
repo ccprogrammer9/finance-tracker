@@ -1,25 +1,57 @@
-// src/components/Dashboard.js
-// Add functionality to display key financial metrics like total balance and recent transactions.
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import '../App.css'; // Ensure correct path to CSS
 
 const Dashboard = () => {
-    // Example data
-    const totalBalance = 5000; // Replace with dynamic data later
-    const recentTransactions = [
-        { id: 1, description: 'Salary', amount: 1500 },
-        { id: 2, description: 'Grocery', amount: -200 },
-        { id: 3, description: 'Rent', amount: -1000 },
-    ];
+    const [budgets, setBudgets] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        // Load budgets from local storage
+        const savedBudgets = JSON.parse(localStorage.getItem('budgets')) || [];
+        console.log('Budgets from local storage:', savedBudgets);
+        setBudgets(savedBudgets);
+    }, []);
+
+    useEffect(() => {
+        // Load transactions from local storage
+        const savedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        console.log('Transactions from local storage:', savedTransactions);
+        setTransactions(savedTransactions);
+    }, []);
+
+    useEffect(() => {
+        // Log budgets whenever they change
+        console.log('Current budgets:', budgets);
+    }, [budgets]);
+
+    useEffect(() => {
+        // Log transactions whenever they change
+        console.log('Current transactions:', transactions);
+    }, [transactions]);
+
+    // Function to calculate total expenses for a given category
+    const calculateTotalForCategory = (category) => {
+        return transactions
+            .filter(txn => txn.category === category)
+            .reduce((total, txn) => total + txn.amount, 0);
+    };
+
+    // Function to calculate remaining budget for a given category
+    const calculateRemainingBudget = (category) => {
+        const budget = budgets.find(budget => budget.category === category);
+        if (budget) {
+            return budget.amount - calculateTotalForCategory(category);
+        }
+        return 0;
+    };
 
     return (
-        <div>
-            <h2>Dashboard</h2>
-            <p>Total Balance: ${totalBalance}</p>
-            <h3>Recent Transactions</h3>
-            <ul>
-                {recentTransactions.map((txn) => (
-                    <li key={txn.id}>
-                        {txn.description}: ${txn.amount}
+        <div className="dashboard-container">
+            <h2 style={{ textAlign: 'center' }}>Dashboard</h2>
+            <ul className="budget-list">
+                {budgets.map(budget => (
+                    <li key={budget.id}>
+                        {budget.category}: ${calculateRemainingBudget(budget.category).toFixed(2)}
                     </li>
                 ))}
             </ul>
@@ -28,3 +60,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
