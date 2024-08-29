@@ -66,9 +66,10 @@ header h1 {
 }
 
 /* Form Section Styles */
-.dashboard-form,
 .budget-form,
-.transaction-form {
+.transaction-form,
+.debt-form,
+.repayment-form {
   width: 100%;
   background-color: #f9f9f9;
   padding: 30px; /* Consistent padding */
@@ -77,9 +78,10 @@ header h1 {
   margin-bottom: 20px;
 }
 
-.dashboard-form h2,
 .budget-form h2,
-.transaction-form h2 {
+.transaction-form h2,
+.debt-form h2,
+.repayment-form h2 {
   font-size: 24px; /* Larger and consistent font size */
   text-align: center; /* Center-align headings */
   font-weight: 600; /* Bold headings */
@@ -90,16 +92,6 @@ header h1 {
   width: fit-content; /* Fit to content width */
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Dashboard and Summary Styles */
-.dashboard-form ul {
-  list-style: none;
-  padding: 0;
-}
-
-.dashboard-form li {
-  margin: 5px 0;
 }
 
 /* General Form Container Styles */
@@ -164,43 +156,42 @@ button:hover {
   }
 }
 
-.transaction-list-container {
-  margin-top: 20px; /* Add spacing between form and list */
-  text-align: center; /* Center the text and list inside this container */
+/* Debt and Repayment List Styles */
+.debt-list,
+.repayment-list {
+  list-style-type: none;
+  padding: 20;
+  margin: 0;
 }
 
-.transaction-list-container h2 {
-  margin-bottom: 20px; /* Add spacing below the heading */
-}
-
-.transaction-list-container ul {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0;
-  margin: 0 auto; /* Center align the list */
-  width: fit-content; /* Adjust width to fit the content */
-}
-
-.transaction-list-container li {
+.debt-item,
+.repayment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-.transaction-list-container li:hover {
-  background-color: #f1f1f1;
-}
-.dashboard-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+.debt-actions,
+.repayment-actions {
+  display: flex;
+  gap: 10px;
 }
 
-.budget-list {
-  list-style-type: none;
-  padding: 0;
+button {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #053f09;
+  color: white;
 }
 
-.budget-list li {
-  margin: 10px 0;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+button:hover {
+  background-color: #053f09;
+}
+
+button:active {
+  background-color: #053f09;
 }

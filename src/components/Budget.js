@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
+import '../App.css'; // Ensure this includes the updated form styles
 
 const Budget = () => {
     const [budgets, setBudgets] = useState([]);
@@ -9,13 +9,11 @@ const Budget = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // Load budgets from local storage on component mount
         const savedBudgets = JSON.parse(localStorage.getItem('budgets')) || [];
         setBudgets(savedBudgets);
     }, []);
 
     useEffect(() => {
-        // Save budgets to local storage whenever budgets state changes
         localStorage.setItem('budgets', JSON.stringify(budgets));
     }, [budgets]);
 
@@ -26,25 +24,28 @@ const Budget = () => {
             return;
         }
         setError('');
+
+        // Parse amount correctly
+        const parsedAmount = parseFloat(amount);
+
         if (editingId) {
             // Update existing budget
             setBudgets(budgets.map(budget =>
-                budget.id === editingId ? { ...budget, category, amount: parseFloat(amount) } : budget
+                budget.id === editingId ? { ...budget, category, amount: parsedAmount } : budget
             ));
             setEditingId(null);
         } else {
             // Add new budget
             setBudgets([
                 ...budgets,
-                { id: budgets.length ? Math.max(budgets.map(b => b.id)) + 1 : 1, category, amount: parseFloat(amount) },
+                { id: budgets.length ? Math.max(budgets.map(b => b.id)) + 1 : 1, category, amount: parsedAmount },
             ]);
         }
         setCategory('');
-        setAmount('');
+        setAmount('');  // Clear amount field after adding/updating
     };
 
     const handleEdit = (id) => {
-        // Set form fields for editing
         const budget = budgets.find(budget => budget.id === id);
         setCategory(budget.category);
         setAmount(budget.amount);
@@ -52,7 +53,6 @@ const Budget = () => {
     };
 
     const handleDelete = (id) => {
-        // Remove budget and update local storage
         setBudgets(budgets.filter(budget => budget.id !== id));
     };
 
@@ -77,7 +77,7 @@ const Budget = () => {
                         type="number"
                         id="amount"
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}  // Allow only numbers and dot
                         placeholder="Amount"
                         required
                     />
@@ -108,4 +108,3 @@ const Budget = () => {
 };
 
 export default Budget;
-
