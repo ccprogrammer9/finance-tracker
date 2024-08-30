@@ -6,74 +6,85 @@ const RepaymentPlans = ({ debts }) => {
 
     useEffect(() => {
         // Create repayment plans based on debts
-        const newRepayments = debts.map(debt => ({
+        const newRepayments = debts.map((debt) => ({
             id: debt.id,
             name: debt.debtName, // Debt name
             description: debt.description || '', // Default to empty string if description is not provided
             totalAmount: debt.amountOwed,
             remainingAmount: debt.amountOwed,
-            payments: [] // Payments will include only the amount
+            payments: [], // Payments will include only the amount
         }));
         setRepayments(newRepayments);
     }, [debts]);
 
     const handleAddPayment = (id, amount) => {
-        setRepayments(repayments.map(rep => {
-            if (rep.id === id) {
-                const newRemainingAmount = rep.remainingAmount - amount;
-                return {
-                    ...rep,
-                    remainingAmount: newRemainingAmount < 0 ? 0 : newRemainingAmount,
-                    payments: [...rep.payments, amount]
-                };
-            }
-            return rep;
-        }));
+        setRepayments((prevRepayments) =>
+            prevRepayments.map((rep) => {
+                if (rep.id === id) {
+                    const newRemainingAmount = rep.remainingAmount - amount;
+                    return {
+                        ...rep,
+                        remainingAmount: newRemainingAmount < 0 ? 0 : newRemainingAmount,
+                        payments: [...rep.payments, amount],
+                    };
+                }
+                return rep;
+            })
+        );
     };
 
     const handleEditPayment = (repaymentId, paymentIndex, newAmount) => {
-        setRepayments(repayments.map(rep => {
-            if (rep.id === repaymentId) {
-                const updatedPayments = rep.payments.map((payment, index) =>
-                    index === paymentIndex ? newAmount : payment
-                );
-                const updatedRemainingAmount = rep.totalAmount - updatedPayments.reduce((sum, p) => sum + p, 0);
-                return {
-                    ...rep,
-                    remainingAmount: updatedRemainingAmount < 0 ? 0 : updatedRemainingAmount,
-                    payments: updatedPayments
-                };
-            }
-            return rep;
-        }));
+        setRepayments((prevRepayments) =>
+            prevRepayments.map((rep) => {
+                if (rep.id === repaymentId) {
+                    const updatedPayments = rep.payments.map((payment, index) =>
+                        index === paymentIndex ? newAmount : payment
+                    );
+                    const updatedRemainingAmount =
+                        rep.totalAmount - updatedPayments.reduce((sum, p) => sum + p, 0);
+                    return {
+                        ...rep,
+                        remainingAmount: updatedRemainingAmount < 0 ? 0 : updatedRemainingAmount,
+                        payments: updatedPayments,
+                    };
+                }
+                return rep;
+            })
+        );
     };
 
     return (
-        <div className="repayment-list">
+        <div className="main-content">
             <h2>Repayment Plans</h2>
             {repayments.length > 0 ? (
                 <ul className="form-container">
                     {repayments.map((repayment) => (
                         <li key={repayment.id}>
-                            <strong>{repayment.name}</strong> - {repayment.description} - Total Amount: ${repayment.totalAmount.toFixed(2)}, Remaining: ${repayment.remainingAmount.toFixed(2)}
+                            <strong>{repayment.name}</strong> - {repayment.description} - Total Amount: $
+                            {repayment.totalAmount.toFixed(2)}, Remaining: $
+                            {repayment.remainingAmount.toFixed(2)}
                             <div>
-                                <button onClick={() => {
-                                    const amount = parseFloat(prompt('Enter payment amount:'));
-                                    if (!isNaN(amount) && amount > 0) {
-                                        handleAddPayment(repayment.id, amount);
-                                    } else {
-                                        alert('Please enter a valid amount.');
-                                    }
-                                }}>
+                                <button
+                                    onClick={() => {
+                                        const amount = parseFloat(prompt('Enter payment amount:'));
+                                        if (!isNaN(amount) && amount > 0) {
+                                            handleAddPayment(repayment.id, amount);
+                                        } else {
+                                            alert('Please enter a valid amount.');
+                                        }
+                                    }}
+                                >
                                     Add Payment
                                 </button>
                             </div>
-                            <ul>
+                            <ul className="repayment-list">
                                 {repayment.payments.map((payment, index) => (
                                     <EditablePayment
-                                        key={index}
+                                        key={`${repayment.id}-${index}`} // Ensuring unique keys
                                         payment={payment}
-                                        onSave={(newAmount) => handleEditPayment(repayment.id, index, newAmount)}
+                                        onSave={(newAmount) =>
+                                            handleEditPayment(repayment.id, index, newAmount)
+                                        }
                                     />
                                 ))}
                             </ul>
@@ -93,8 +104,9 @@ const EditablePayment = ({ payment, onSave }) => {
     const [editAmount, setEditAmount] = useState(payment);
 
     const handleSave = () => {
-        if (!isNaN(editAmount) && editAmount > 0) {
-            onSave(parseFloat(editAmount));
+        const parsedAmount = parseFloat(editAmount);
+        if (!isNaN(parsedAmount) && parsedAmount > 0) {
+            onSave(parsedAmount);
             setIsEditing(false);
         } else {
             alert('Please enter a valid amount.');
@@ -102,7 +114,7 @@ const EditablePayment = ({ payment, onSave }) => {
     };
 
     return (
-        <li>
+        <li className="editable-payment">
             {isEditing ? (
                 <div>
                     <input
