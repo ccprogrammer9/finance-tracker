@@ -8,10 +8,11 @@ const RepaymentPlans = ({ debts }) => {
         // Create repayment plans based on debts
         const newRepayments = debts.map(debt => ({
             id: debt.id,
-            description: debt.description,
+            name: debt.debtName, // Debt name
+            description: debt.description || '', // Default to empty string if description is not provided
             totalAmount: debt.amountOwed,
             remainingAmount: debt.amountOwed,
-            payments: []
+            payments: [] // Payments will include only the amount
         }));
         setRepayments(newRepayments);
     }, [debts]);
@@ -30,19 +31,38 @@ const RepaymentPlans = ({ debts }) => {
         }));
     };
 
+    const handleEditPayment = (repaymentId, paymentIndex, newAmount) => {
+        setRepayments(repayments.map(rep => {
+            if (rep.id === repaymentId) {
+                const updatedPayments = rep.payments.map((payment, index) =>
+                    index === paymentIndex ? newAmount : payment
+                );
+                const updatedRemainingAmount = rep.totalAmount - updatedPayments.reduce((sum, p) => sum + p, 0);
+                return {
+                    ...rep,
+                    remainingAmount: updatedRemainingAmount < 0 ? 0 : updatedRemainingAmount,
+                    payments: updatedPayments
+                };
+            }
+            return rep;
+        }));
+    };
+
     return (
-        <div className="repayment-plans-container">
+        <div className="repayment-list">
             <h2>Repayment Plans</h2>
             {repayments.length > 0 ? (
-                <ul className="repayment-list">
+                <ul className="form-container">
                     {repayments.map((repayment) => (
                         <li key={repayment.id}>
-                            {repayment.description} - Total Amount: ${repayment.totalAmount.toFixed(2)}, Remaining: ${repayment.remainingAmount.toFixed(2)}
+                            <strong>{repayment.name}</strong> - {repayment.description} - Total Amount: ${repayment.totalAmount.toFixed(2)}, Remaining: ${repayment.remainingAmount.toFixed(2)}
                             <div>
                                 <button onClick={() => {
                                     const amount = parseFloat(prompt('Enter payment amount:'));
                                     if (!isNaN(amount) && amount > 0) {
                                         handleAddPayment(repayment.id, amount);
+                                    } else {
+                                        alert('Please enter a valid amount.');
                                     }
                                 }}>
                                     Add Payment
@@ -50,7 +70,11 @@ const RepaymentPlans = ({ debts }) => {
                             </div>
                             <ul>
                                 {repayment.payments.map((payment, index) => (
-                                    <li key={index}>Payment: ${payment.toFixed(2)}</li>
+                                    <EditablePayment
+                                        key={index}
+                                        payment={payment}
+                                        onSave={(newAmount) => handleEditPayment(repayment.id, index, newAmount)}
+                                    />
                                 ))}
                             </ul>
                         </li>
@@ -63,5 +87,42 @@ const RepaymentPlans = ({ debts }) => {
     );
 };
 
-export default RepaymentPlans;
+// Separate component for editable payment
+const EditablePayment = ({ payment, onSave }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editAmount, setEditAmount] = useState(payment);
 
+    const handleSave = () => {
+        if (!isNaN(editAmount) && editAmount > 0) {
+            onSave(parseFloat(editAmount));
+            setIsEditing(false);
+        } else {
+            alert('Please enter a valid amount.');
+        }
+    };
+
+    return (
+        <li>
+            {isEditing ? (
+                <div>
+                    <input
+                        type="number"
+                        value={editAmount}
+                        onChange={(e) => setEditAmount(e.target.value)}
+                        step="0.01"
+                        placeholder="Amount"
+                    />
+                    <button onClick={handleSave}>Save</button>
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+            ) : (
+                <div>
+                    Payment: ${payment.toFixed(2)}
+                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                </div>
+            )}
+        </li>
+    );
+};
+
+export default RepaymentPlans;

@@ -115,7 +115,7 @@ const Transactions = () => {
                 </div>
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div className="transaction-list-container">
+            <div className="main-content">
                 <h2>Expense Log</h2>
                 <TransactionList
                     transactions={transactions}

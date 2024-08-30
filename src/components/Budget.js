@@ -56,6 +56,10 @@ const Budget = () => {
         setBudgets(budgets.filter(budget => budget.id !== id));
     };
 
+    // Calculate total amount and format with commas
+    const totalAmount = budgets.reduce((sum, budget) => sum + budget.amount, 0);
+    const formattedTotalAmount = totalAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
     return (
         <div className="main-content">
             <h2>Budget</h2>
@@ -89,17 +93,20 @@ const Budget = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <h3>Budget Categories</h3>
             {budgets.length > 0 ? (
-                <ul className="budget-list">
-                    {budgets.map((budget) => (
-                        <li key={budget.id}>
-                            {budget.category}: ${budget.amount.toFixed(2)}
-                            <div>
-                                <button onClick={() => handleEdit(budget.id)}>Edit</button>
-                                <button onClick={() => handleDelete(budget.id)}>Delete</button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                <>
+                    <ul className="budget-list">
+                        {budgets.map((budget) => (
+                            <li key={budget.id}>
+                                {budget.category}: ${budget.amount.toFixed(2)}
+                                <div>
+                                    <button onClick={() => handleEdit(budget.id)}>Edit</button>
+                                    <button onClick={() => handleDelete(budget.id)}>Delete</button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    <h4>Total Budget: {formattedTotalAmount}</h4>
+                </>
             ) : (
                 <p>No budgets added yet.</p>
             )}

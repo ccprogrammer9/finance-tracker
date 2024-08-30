@@ -1,5 +1,3 @@
-/* App.css */
-
 /* Global Styles */
 body {
   font-family: Geneva, sans-serif;
@@ -10,119 +8,108 @@ body {
 
 /* Header Styles */
 header {
-  position: fixed; /* Fixed position for sticky header */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 2000; /* Higher z-index to stay above other elements */
+  z-index: 2000;
   color: #208b21;
   padding: 0;
   text-align: center;
-  overflow: hidden; /* Hide any overflowing content */
-  background-color: #ffffff; /* Ensure consistent background */
+  overflow: hidden;
+  background-color: #ffffff;
 }
 
-/* Slideshow Container */
+/* Slideshow Styles */
 .slideshow-container {
   width: 100%;
-  height: auto; /* Adjust based on your image height */
+  height: auto;
   position: relative;
 }
 
-/* Slideshow Image */
 .slideshow-image {
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
+  height: auto;
   display: block;
 }
 
-/* Header Title */
 header h1 {
   text-align: center;
-  font-size: 100px; /* Large font size for header */
+  font-size: 100px;
   font-family: Geneva, sans-serif;
-  margin: 20px 0; /* Adjust as needed */
-  color: #208b21; /* Header text color */
+  margin: 20px 0;
+  color: #208b21;
 }
 
-/* Main Content and Forms Container */
+/* Main Content Styles */
 .main-content {
+  font-family: Geneva, sans-serif;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px; /* Adjust if needed to account for header height */
+  margin-top: 30px;
   width: 100%;
 }
 
-.forms-container {
+/* Unified Form Container Styles */
+.forms-container, .form-container {
   width: 100%;
-  max-width: 1200px; /* Adjust based on your design */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 0 auto; /* Center the container */
-  padding: 10px;
 }
 
-/* Form Section Styles */
-.budget-form,
-.transaction-form,
-.debt-form,
-.repayment-form {
-  width: 100%;
-  background-color: #f9f9f9;
-  padding: 30px; /* Consistent padding */
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.budget-form h2,
-.transaction-form h2,
-.debt-form h2,
-.repayment-form h2 {
-  font-size: 24px; /* Larger and consistent font size */
-  text-align: center; /* Center-align headings */
-  font-weight: 600; /* Bold headings */
-  margin-bottom: 20px;
-  color: #333;
-  border-bottom: 2px solid #4CAF50; /* Add a bottom border */
-  padding-bottom: 10px; /* Padding for bottom border */
-  width: fit-content; /* Fit to content width */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* General Form Container Styles */
 .form-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns for inputs */
-  gap: 10px; /* Space between items */
-  max-width: 600px; /* Maximum width for the form */
-  margin: 30px auto; /* Center the form horizontally and add vertical margin */
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
   padding: 30px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Section Styles */
+.form-section {
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 10px;
+  width: fit-content;
+}
+
 .form-container div {
   display: flex;
+  padding: 4px;
   flex-direction: column;
 }
 
 .form-container label {
   margin-bottom: 5px;
-  font-weight: 500; /* Slightly bold for labels */
-  color: #555; /* Darker text color */
+  font-weight: 500;
+  color: #555;
 }
 
 .form-container input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px; /* Consistent font size */
+  font-size: 14px;
 }
 
 /* Button Styles */
@@ -133,63 +120,54 @@ button {
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
-  font-size: 16px; /* Increase button text size */
-  font-weight: bold; /* Bold button text */
-  transition: background-color 0.3s ease; /* Smooth transition */
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin: 5px;
 }
 
 button:hover {
-  background-color: #45a049; /* Hover effect */
+  background-color: #45a049;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .form-container {
-    grid-template-columns: 1fr; /* Single column layout on smaller screens */
-  }
-
-  .forms-container {
-    width: 90%; /* Slightly narrower on smaller screens */
+    grid-template-columns: 1fr;
   }
 }
 
 /* Debt and Repayment List Styles */
-.debt-list,
-.repayment-list {
-  list-style-type: none;
-  padding: 20;
-  margin: 0;
+.debt-list, .repayment-list{
+  list-style-type: square;
+  padding: 10px;
+  align-items: center;
+  width: 100%; /* Adjusted to 100% for responsiveness */
 }
 
-.debt-item,
-.repayment-item {
+.debt-item{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Changed to column for better layout */
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 10px solid #ddd;
+  margin-bottom: 10px;
 }
 
 .debt-actions,
-.repayment-actions {
+.repayment-actions { /* Updated to .repayment-actions */
   display: flex;
   gap: 10px;
+  margin-top: 10px;
 }
 
-button {
-  cursor: pointer;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #053f09;
-  color: white;
-}
-
-button:hover {
-  background-color: #053f09;
+/* Editable Payment Styles */
+.editable-payment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 5px;
 }
 
 button:active {

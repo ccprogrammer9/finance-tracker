@@ -4,7 +4,6 @@ import '../App.css'; // Ensure correct path to CSS
 const DebtTracker = ({ debts, setDebts }) => {
     const [debtName, setDebtName] = useState('');
     const [amountOwed, setAmountOwed] = useState('');
-    const [interestRate, setInterestRate] = useState('');
     const [paymentSchedule, setPaymentSchedule] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [error, setError] = useState('');
@@ -16,7 +15,7 @@ const DebtTracker = ({ debts, setDebts }) => {
 
     const handleAddOrUpdateDebt = (e) => {
         e.preventDefault();
-        if (!debtName || isNaN(amountOwed) || amountOwed <= 0 || isNaN(interestRate) || interestRate < 0 || !paymentSchedule) {
+        if (!debtName || isNaN(amountOwed) || amountOwed <= 0 || !paymentSchedule) {
             setError('Please provide valid debt details.');
             return;
         }
@@ -24,19 +23,18 @@ const DebtTracker = ({ debts, setDebts }) => {
         if (editingId) {
             // Update existing debt
             setDebts(debts.map(debt =>
-                debt.id === editingId ? { ...debt, debtName, amountOwed: parseFloat(amountOwed), interestRate: parseFloat(interestRate), paymentSchedule } : debt
+                debt.id === editingId ? { ...debt, debtName, amountOwed: parseFloat(amountOwed), paymentSchedule } : debt
             ));
             setEditingId(null);
         } else {
             // Add new debt
             setDebts([
                 ...debts,
-                { id: debts.length ? Math.max(debts.map(d => d.id)) + 1 : 1, debtName, amountOwed: parseFloat(amountOwed), interestRate: parseFloat(interestRate), paymentSchedule },
+                { id: debts.length ? Math.max(debts.map(d => d.id)) + 1 : 1, debtName, amountOwed: parseFloat(amountOwed), paymentSchedule },
             ]);
         }
         setDebtName('');
         setAmountOwed('');
-        setInterestRate('');
         setPaymentSchedule('');
     };
 
@@ -45,7 +43,6 @@ const DebtTracker = ({ debts, setDebts }) => {
         const debt = debts.find(debt => debt.id === id);
         setDebtName(debt.debtName);
         setAmountOwed(debt.amountOwed);
-        setInterestRate(debt.interestRate);
         setPaymentSchedule(debt.paymentSchedule);
         setEditingId(id);
     };
@@ -56,7 +53,7 @@ const DebtTracker = ({ debts, setDebts }) => {
     };
 
     return (
-        <div className="debt-tracker">
+        <div className="main-content">
             <h2>Debt Tracker</h2>
             <form className="form-container" onSubmit={handleAddOrUpdateDebt}>
                 <div>
@@ -82,18 +79,7 @@ const DebtTracker = ({ debts, setDebts }) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="interestRate">Interest Rate (%)</label>
-                    <input
-                        type="number"
-                        id="interestRate"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
-                        placeholder="Interest Rate"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="paymentSchedule">Due Date</label>
+                    <label htmlFor="paymentSchedule">Monthly Due Date</label>
                     <input
                         type="text"
                         id="duedate"
@@ -110,10 +96,10 @@ const DebtTracker = ({ debts, setDebts }) => {
             </form>
             <h3>Debt List</h3>
             {debts.length > 0 ? (
-                <ul className="debt-list">
+                <ul className="main-content">
                     {debts.map((debt) => (
                         <li key={debt.id} className="debt-item">
-                            <span>{debt.debtName} - ${debt.amountOwed.toFixed(2)} - {debt.interestRate}% - {debt.paymentSchedule}</span>
+                            <span>{debt.debtName} - ${debt.amountOwed.toFixed(2)} - {debt.paymentSchedule}</span>
                             <div className="debt-actions">
                                 <button onClick={() => handleEdit(debt.id)}>Edit</button>
                                 <button onClick={() => handleDelete(debt.id)}>Delete</button>
@@ -129,4 +115,3 @@ const DebtTracker = ({ debts, setDebts }) => {
 };
 
 export default DebtTracker;
-
